@@ -14,7 +14,7 @@ Ext.onReady(function() {
     var match = window.location.href;
     var s=match.indexOf("?"); 
     var jsonfile=match.substring(s+1);// t就是?后面的东西了 
-    var datafile= 'data/'+jsonfile+'.json';
+    var datafile= 'data/'+jsonfile+'.json';    //datefile是整个传入的数据文件，需要原数据就要用它
     var filename=jsonfile,filenumber;
     var storeChart = Ext.create('Ext.data.JsonStore', {
         fields: ['name', 'data'],
@@ -104,7 +104,7 @@ Ext.onReady(function() {
 			 }
 		  }  	
     });
-    function importfun(action) {
+    function importfun(action) {    //////导入数据->servlet/importData.class
         if (!import_val) {
         	 var uploadForm=new Ext.FormPanel({  
         	        id:'uploadForm',  
@@ -114,7 +114,7 @@ Ext.onReady(function() {
         	        autoHeight:true,  
         	        bodyStyle:'10px 10px 0px 10px',  
         	        labelWidth:50,  
-        	        enctype: 'multipart/form-data',   
+        	        enctype: 'multipart/form-data',    ////////定义编码格式，用于传递完整的文件数据
         	        defaults:{  
         	            anchor: '95%',  
         	            allowBlank: false  
@@ -124,7 +124,7 @@ Ext.onReady(function() {
         	                emptyText: '请选择上传文件...',   
         	                fieldLabel: '文件',   
         	                id:'uploadFile',  
-        	                name: 'upload',   
+        	                name: 'upload',      ///////////后台接受
         	                allowBlank: false,     
         	                blankText: '文件名称不能为空.',     
         	                buttonCfg: {  
@@ -390,8 +390,14 @@ Ext.onReady(function() {
 			var width = 5000, height = 5000;
 			//var radius = d3.scale.sqrt().range([0, 6]);//值域  
 			var color = d3.scaleOrdinal().range(d3.schemeCategory20);
-			var svg = d3.select("#" + this.id + "-body").append("svg").attr("width", width).attr("height", height);
-			var tooltip = d3.select("#" + this.id + "-body").append("div").attr("class","tooltip").style("opacity",0.0);
+			var svg = d3.select("#" + this.id + "-body")
+						.append("svg")
+						.attr("width", width)
+						.attr("height", height);
+			var tooltip = d3.select("#" + this.id + "-body")
+						.append("div")
+						.attr("class","tooltip")
+						.style("opacity",0.0);
 		    transform = d3.zoomIdentity;
 			d3.json(datafile, function(json){
 				var circles_group = svg.append("g");
@@ -499,21 +505,22 @@ Ext.onReady(function() {
 	});   
 
    
-  //
+  //面板代码
+    
 	var windowExt = Ext.create('Ext.container.Viewport', {
 		layout : 'border',
-		items : [{// 上方面板
+		items : [{///////////////////////////////////////////////////////// 上侧面板
 			region : 'north',
 			xtype : 'panel',
 			bodyPadding : 5,
-			title : 'GVBD---Graph Visualization Base on  Distributed system',
+			title : 'GVBD-Graph Visualization Base on  Distributed system',
 			renderTo : Ext.getBody(),
 			tbar : [{
 						xtype : 'button',
 						text : '文件',
 						// arrowAlign : 'bottom',
 						menu : [
-						        {text : '导入数据',handler: Ext.Function.pass(importfun, '导入数据')},
+						        {text : '导入数据',handler: Ext.Function.pass(importfun, '导入数据')},  /////工具->导入数据->importfun()->
 						        {text : '生成数据',handler: Ext.Function.pass(production, '生成数据')}
 						       ]
 
@@ -545,7 +552,7 @@ Ext.onReady(function() {
 						handler: Ext.Function.pass(aboutus)
 					}]
 
-		  }, {	// 左侧面板
+		  }, {	///////////////////////////////////////////////////////// 左侧面板
 					region : 'west',
 					collapsible : true,
 					split : true,
@@ -764,7 +771,7 @@ Ext.onReady(function() {
 						      
 					          
 					}]
-				}, {
+				}, {///////////////////////////////////////////////////////// 右侧面板
 					region : 'east',
 					collapsible : true,
 					split : true,
@@ -860,7 +867,7 @@ Ext.onReady(function() {
 											
 							    		}]	
 									}]
-				}, {
+				}, { ///////////////////////////////////////////////////////// 中间面板
 					region : 'center',
 					xtype : 'tabpanel', // TabPanel itself has no title
 					items :	Ext.widget('singleview', {
@@ -868,6 +875,9 @@ Ext.onReady(function() {
 					})
 			}]
 	});
+	
+	
+	
 	function handleActivate() {
 		
 		$.getJSON(datafile, function(data){ 
