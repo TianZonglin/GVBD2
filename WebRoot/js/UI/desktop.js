@@ -32,7 +32,7 @@ Ext.onReady(function() {
 //            { 'name': 'metric two',   'data': 7 },
 //            { 'name': 'metric three', 'data': 5 },
 //            { 'name': 'metric four',  'data': 2 },
-//            { 'name': 'metric five1',  'data':27 },
+//            { 'name': 'metric five1',  'data':27 },     
 //            { 'name': 'metric five2',  'data':27 },
 //            { 'name': 'metric five3',  'data':27 },
 //            { 'name': 'metric five4',  'data':27 },
