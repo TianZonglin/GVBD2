@@ -50,6 +50,7 @@ public class FRlayout {
 			System.out.println(Evaluate.standardLength(graphData.getGraph(), layoutConfig));
 			System.out.println(end-start);
 			Output.outputJson(graphData.getGraph());
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

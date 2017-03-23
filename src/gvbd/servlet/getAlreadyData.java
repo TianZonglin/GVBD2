@@ -34,10 +34,12 @@ public class getAlreadyData extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+			//获取左侧上部下拉框的选项值
+		
 			testyyj test = new testyyj();
 			String json = test.getData();
-//			System.out.println(json);        
+			System.out.println("|<- "+json);////////////////////////////        
 			response.setContentType("text/html");
 			PrintWriter out = response.getWriter();
 			out.println(json);
