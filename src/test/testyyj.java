@@ -10,8 +10,18 @@ import java.util.Map.Entry;
 
 import net.sf.json.JSONArray;
 
+/**
+ * 该类会获取到前台点击json文件中的json数据
+ * @author Mr.T
+ * @Time 2017-03-24
+ */
 public class testyyj {
 
+	/**
+	 * 该类会获取到前台点击json文件中的json数据
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	static String getString(String str){
 		int num=str.lastIndexOf('\\');
 		int lastnum=str.indexOf('.');
@@ -19,7 +29,12 @@ public class testyyj {
 		return str1;
 	}
 	
-	
+	/**
+	 * 此方法会获取data目录中的文件
+	 * @return json 返回构造好的json串
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */	
 	public  String getData() {
 		
 		File  f =  new File("../webapps/GVBD/data");
@@ -33,10 +48,14 @@ public class testyyj {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		File[] tempList = f.listFiles();
+		File[] tempList = f.listFiles(); //文件列表
+		
 		HashMap<Integer, String> hash = new HashMap<Integer ,String >();
 		List list = new ArrayList();
+		
+		//循环列表中的每个文件
 		for(int i=0;i<tempList.length;i++){
+			//System.out.println("------------ "+tempList[i].getName());
 			if(tempList[i].isFile()){
 				if(!tempList[i].getName().startsWith("kmeans_")){
 					hash.put(i, getString(tempList[i].getName()));
@@ -46,11 +65,18 @@ public class testyyj {
 				
 			}
 		}
-		String json =hashMapToJson(hash);
+		String json =hashMapToJson(hash); //转换
 		JSONArray jsonArray2 = JSONArray.fromObject( list );
 		//System.out.println(json);
 		return json;
 	}
+	
+	/**
+	 * 此方法传入之前映射完的map对象，然后按照键值对应构造出json字符串，并返回
+	 * @return string json字符串
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */	
     public static String hashMapToJson(HashMap map) {  
         String string = "{data:[";  
         for (Iterator it = map.entrySet().iterator(); it.hasNext();) {  

@@ -16,7 +16,23 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+/** 
+ * gvbd.util.Output类 :
+ * @method outputJson
+ * @author Mr.T
+ * @Time 2017-03-24
+ */
 public class Output {
+	
+    /** 
+     * outputJson :
+	 * 此方法将图结构的数据输出为json格式
+	 * @param graph  原始图结构数据
+	 * @param nre  
+	 * @return void(Null)
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	public static void outputJson(Graph graph,String nre){
 		JSONObject jo = new JSONObject();
 		Node [] nodes=graph.getNodes();

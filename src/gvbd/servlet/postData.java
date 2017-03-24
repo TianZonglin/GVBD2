@@ -50,40 +50,34 @@ public class postData extends HttpServlet {
 	}
 
 	/**
-	 * The doPost method of the servlet. <br>
+	 * The doPost method of the servlet.
 	 * 
-	 * This method is called when a form has its tag value method equals to
-	 * post.
-	 * 
-	 * @param request
-	 *            the request send by the client to the server
-	 * @param response
-	 *            the response send by the server to the client
-	 * @throws ServletException
-	 *             if an error occurred
-	 * @throws IOException
-	 *             if an error occurred
+	 * 通过前台getParameter获得各种配置值，根据前台选择的算法来具体执行相关代码；
+	 * @return void(Null)
+	 * @author Mr.T
+	 * @Time 2017-03-24
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		String nre = getServletContext().getRealPath("/data/");
 		String nre2 = getServletContext().getRealPath("/dataSimple/");
-		System.out.println(request.getParameter("kvalue"));// k值
-		System.out.println(request.getParameter("title"));// 布局方式
-		System.out.println(request.getParameter("speed"));// 速度值
-		System.out.println(request.getParameter("isDirected"));// 是否是有向图
-		System.out.println(request.getParameter("cool"));// cool值
-		System.out.println(request.getParameter("forceThreshold"));// forceThreshold值
-		System.out.println(request.getParameter("temperature"));// temperature值
-		System.out.println(request.getParameter("deep"));// deep值
-		System.out.println(request.getParameter("filename"));// 文件名值
-		System.out.println(request.getParameter("times"));
+		System.out.println(">>>>>>> "+System.currentTimeMillis()+" >>>>>>>>>>>>");
+		System.out.println("kvalue = "+request.getParameter("kvalue"));// k值
+		System.out.println("title = "+request.getParameter("title"));// 布局方式
+		System.out.println("speed = "+request.getParameter("speed"));// 速度值
+		System.out.println("isDirected = "+request.getParameter("isDirected"));// 是否是有向图
+		System.out.println("cool = "+request.getParameter("cool"));// cool值
+		System.out.println("forceThreshold = "+request.getParameter("forceThreshold"));// forceThreshold值
+		System.out.println("temperature = "+request.getParameter("temperature"));// temperature值
+		System.out.println("deep = "+request.getParameter("deep"));// deep值
+		System.out.println("filename = "+request.getParameter("filename"));// 文件名值
+		System.out.println("times = "+request.getParameter("times"));
 		
-		System.out.println(request.getParameter("filenumber"));
+		System.out.println("path = "+nre2+"\\"+request.getParameter("filename")+".txt");
 		
 		
-		DataConfig.setDataPath(nre2+"\\"+request.getParameter("filename")+".txt");
+		DataConfig.setDataPath(nre2+"\\"+request.getParameter("filename")+".txt"); //读取此txt文件
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(new FileInputStream(
 						DataConfig.getDataPath()), "utf-8"));
@@ -137,7 +131,7 @@ public class postData extends HttpServlet {
 
 			Layout layout = new ChengLayout(graphData.getGraph(), layoutConfig);
 			layout.doLayout();
-			
+			///data/filename.json
 			Output.outputJson(graphData.getGraph(),nre+"\\"+request.getParameter("filename")+".json");
 		}
 		if (layoutMethod.equals("FRLayout")) {
@@ -176,7 +170,7 @@ public class postData extends HttpServlet {
 			//传入已建立的图对象 和 布局算法配置对象
 			Layout layout = new FRForceLayout(graphData.getGraph(), layoutConfig);
 			layout.doLayout();//迭代算法
-			
+			///dataSimple/filename.json
 			Output.outputJson(graphData.getGraph(),nre+"\\"+request.getParameter("filename")+".json");
 			System.out.println("FRLayout--end");
 			

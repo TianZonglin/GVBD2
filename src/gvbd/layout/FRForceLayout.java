@@ -290,6 +290,8 @@ public class FRForceLayout implements Layout {
 	/** 
 	 * dist :
 	 * 私有方法，计算两个节点之间的欧式距离；
+	 * 按设置的迭代次数迭代算法goAlgo()，会判断是否定义了迭代次数；
+	 * 如果有次数则直接简单的重复迭代，如果没有，则需要进行其他的设置；
 	 * @return void(Null)
 	 * @author Mr.T
 	 * @Time 2017-03-24
@@ -305,22 +307,51 @@ public class FRForceLayout implements Layout {
 						.getOldY()));
 		return dist;
 	}
+	/** 
+	 * 计算吸引力attractiveForce；输入为两节点;
+	 * 没用到！
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	private double attractiveForce(Node node1,Node node2){
 		double force=dist(node1,node2)*dist(node1, node2)/this.k;
 		return force;
 	}
+	/** 
+	 * 计算吸引力attractiveForce；输入为两点距离，公式为dist^2/k;
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	private double attractiveForce(double dist){
 		double force=dist*dist/this.k;
 		return force;
 	}
+	
+	/** 
+	 * 计算排斥力repulsiveForce；输入为两节点;
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	private double repulsiveForce(Node node1,Node node2){
 		double force=this.k*this.k/dist(node1,node2);
 		return force;
 	}
+	/** 
+	 * 计算repulsiveForce；输入为两点距离，公式为k^2/dist;
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	private double repulsiveForce(double dist){
 		double force=this.k*this.k/dist;
 		return force;
 	}
+	/** 
+	 * cool :
+	 * 传入温度temperature，变量cool是在外部配置的降温参数
+	 * @return t*cool
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	private float cool(float t){
 		return t*cool;
 	}
