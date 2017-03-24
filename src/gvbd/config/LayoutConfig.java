@@ -1,5 +1,11 @@
 package gvbd.config;
 
+/** 
+ * LayoutConfig类 :
+ * 是具体布局算法Config类的父类，包含一些共有的配置项
+ * @author Mr.T
+ * @Time 2017-03-24
+ */
 public class  LayoutConfig {
 	private int times=0;
 	private boolean layoutByTimes;

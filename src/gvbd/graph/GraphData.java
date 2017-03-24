@@ -86,7 +86,7 @@ public class GraphData {
 		}
 		string = string.substring(0, string.lastIndexOf(","));
 		string += "]}";
-		return string;
+		return string; 
 	}
 
 	public static void UndirectGraphTopK(String pathin,String realPath, String filename) {

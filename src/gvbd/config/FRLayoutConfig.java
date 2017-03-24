@@ -1,5 +1,13 @@
 package gvbd.config;
 
+
+/** 
+ * FRLayoutConfig类 :
+ * 继承自gvbd.config.LayoutConfig类，该类的实例化对象可以包含全部布局算法的配置信息
+ * @see LayoutConfig
+ * @author Mr.T
+ * @Time 2017-03-24
+ */
 public class FRLayoutConfig extends LayoutConfig {
 	private float k;
 	private double forceThreshold; 

@@ -99,14 +99,14 @@ public class postData extends HttpServlet {
 		if (layoutMethod.equals("ChengLayout")) {
 			ChengLayoutConfig layoutConfig = new ChengLayoutConfig();
 			if (request.getParameter("isDirected").equals("false")) {
-				layoutConfig.setDirected(false);
+				layoutConfig.setDirected(false);//设置ChengLayout算法的Directed参数
 			} else if (request.getParameter("isDirected").equals("true")) {
 				layoutConfig.setDirected(true);
 			} else {
 				System.out.println("没有这种选择");
 			}
 			
-			layoutConfig.setLayoutByTimes(true);
+			layoutConfig.setLayoutByTimes(true);//设置ChengLayout算法的ByTimes参数
 			
 /*			layoutConfig.setDirected(false);
 			layoutConfig.setHeight(5000);
@@ -120,24 +120,20 @@ public class postData extends HttpServlet {
 
 			
 			
-			
+			//设置ChengLayout算法的其他参数
 			layoutConfig.setWidth(5000);
 			layoutConfig.setHeight(5000);
 			layoutConfig.setLayoutByTimes(true);
 			layoutConfig.setK(Float.parseFloat(request.getParameter("kvalue")));
-			layoutConfig
-					.setDeep(Integer.parseInt(request.getParameter("deep")));
-			layoutConfig.setTimes(Integer.parseInt(request
-					.getParameter("times")));
-			layoutConfig
-					.setCool(Float.parseFloat(request.getParameter("cool")));
-			layoutConfig.setTemperature(Integer.parseInt(request
-					.getParameter("temperature")));
+			layoutConfig.setDeep(Integer.parseInt(request.getParameter("deep")));
+			layoutConfig.setTimes(Integer.parseInt(request.getParameter("times")));
+			layoutConfig.setCool(Float.parseFloat(request.getParameter("cool")));
+			layoutConfig.setTemperature(Integer.parseInt(request.getParameter("temperature")));
 
-			GraphData graphData = new GraphData();
+			GraphData graphData = new GraphData(); //创建图
 			
-			graphData.loadNodeData(DataConfig.getDataReader(),
-					DataConfig.getNodeFormat(), DataConfig.getNodeNum());
+			//按DataConfig的参数输入loadNodeData
+			graphData.loadNodeData(DataConfig.getDataReader(),DataConfig.getNodeFormat(), DataConfig.getNodeNum());
 
 			Layout layout = new ChengLayout(graphData.getGraph(), layoutConfig);
 			layout.doLayout();
@@ -147,7 +143,7 @@ public class postData extends HttpServlet {
 		if (layoutMethod.equals("FRLayout")) {
 			 
 			System.out.println("FRLayout");
-			FRLayoutConfig layoutConfig = new FRLayoutConfig();
+			FRLayoutConfig layoutConfig = new FRLayoutConfig();//实例化配置对象,有部分方法是继承自父类的
 			
 			
 			layoutConfig.setLayoutByTimes(true);
@@ -171,11 +167,15 @@ public class postData extends HttpServlet {
 					.getParameter("temperature")));
 
 			GraphData graphData = new GraphData();
+			
+			//按DataConfig的参数输入loadNodeData，
+			//包含全部的数据，点、边、关系等等；
 			graphData.loadNodeData(DataConfig.getDataReader(),
 					DataConfig.getNodeFormat(), DataConfig.getNodeNum());
 
+			//传入已建立的图对象 和 布局算法配置对象
 			Layout layout = new FRForceLayout(graphData.getGraph(), layoutConfig);
-			layout.doLayout();
+			layout.doLayout();//迭代算法
 			
 			Output.outputJson(graphData.getGraph(),nre+"\\"+request.getParameter("filename")+".json");
 			System.out.println("FRLayout--end");

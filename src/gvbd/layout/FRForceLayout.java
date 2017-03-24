@@ -9,7 +9,15 @@ import gvbd.graph.Node;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+/** 
+ * gvbd.layout.FRForceLayout类 :
+ * 该类是FR力导向算法的实现类，有若干方法包括：
+ * 构造函数FRForceLayout(..)；
+ * 实现接口Layout的方法；
+ * 还有一些私有方法；
+ * @author Mr.T
+ * @Time 2017-03-24
+ */
 public class FRForceLayout implements Layout {
 	private Graph graph;
 	private boolean isDirected;
@@ -24,9 +32,18 @@ public class FRForceLayout implements Layout {
 	private double k;
 	private float cool;
 	private float temperature;
-
+	
+    /** 
+     * FRForceLayout :
+	 * 此类的构造函数，将本类中定义的变量赋予layoutConfig对象配置的值
+	 * @param graph 原始结构图，传入的外来变量
+	 * @param layoutConfig 配置对象
+	 * @return void(Null)
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	public FRForceLayout(Graph graph, LayoutConfig layoutConfig) {
-		this.graph = graph;
+		this.graph = graph; 
 		FRLayoutConfig forceLayoutConfig = (FRLayoutConfig) layoutConfig;
 		this.height = forceLayoutConfig.getHeight();
 		this.width = forceLayoutConfig.getWidth();
@@ -35,7 +52,7 @@ public class FRForceLayout implements Layout {
 		System.out.println("tttt"+this.area);
 		
 		this.k = Math.sqrt(this.area / this.graph.getNodes().length)*forceLayoutConfig.getK();
-		this.layoutByTimes = forceLayoutConfig.isLayoutByTimes();
+		this.layoutByTimes = forceLayoutConfig.isLayoutByTimes();//是否有迭代次数输入
 		this.times = forceLayoutConfig.getTimes();
 		this.forceThreshold = forceLayoutConfig.getForceThreshold();
 		this.cool=forceLayoutConfig.getCool();
@@ -44,6 +61,14 @@ public class FRForceLayout implements Layout {
 		System.out.println("time="+this.times);
 	}
 
+	/** 
+     * initAlgo :
+	 * 初始化算法，会获取graph的顶点数和顶点数组Node[]，然后遍历全部节点，设置节点坐标；
+	 * 初始坐标是随机的，然后开始计算相关引力斥力，不断迭代直到稳定；
+	 * @return void(Null)
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	@Override
 	public void initAlgo() {
 		System.out.println("定点数=" + this.graph.getNodes().length);
@@ -51,13 +76,34 @@ public class FRForceLayout implements Layout {
 		
 		for  (int i=0 ;i<nodes.length;++i) {
 			Node node = nodes[i];
-			node.getNodeLayoutData().setX(Math.random() * width);
+			node.getNodeLayoutData().setX(Math.random() * width);//随机生成第一次的坐标
 			node.getNodeLayoutData().setY(Math.random() * height);
-			node.getNodeLayoutData().setOldX(node.getNodeLayoutData().getX());
+			node.getNodeLayoutData().setOldX(node.getNodeLayoutData().getX());//紧接着将上述坐标作为旧坐标
 			node.getNodeLayoutData().setOldY(node.getNodeLayoutData().getY());
 		}
 	}
-
+	
+	/** 
+     * goAlgo :
+	 * 遍历全部节点{
+	 * 		对于当前节点{
+	 * 			找到与此节点有边的节点并遍历（计算引力）{
+	 * 				计算此节点与边另一头节点的距离；
+	 * 				按公式产生attractForceX、attractForceY；
+	 * 			}
+	 * 			遍历全部节点（计算斥力）{
+	 * 				计算此节点与边另一头节点的距离；
+	 * 				按公式产生repulsionForceX、repulsionForceY；
+	 * 			}
+	 * 			生成resultantForceX、resultantForceY
+	 * 			按算法计算并更新新坐标；
+	 * 			更新旧坐标；
+	 * 		}				
+	 * }
+	 * @return void(Null)
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	@Override
 	public void goAlgo() throws Exception {
 		this.resultantForceX = 0;
@@ -186,7 +232,15 @@ public class FRForceLayout implements Layout {
 		
 		
 	}
-
+	/** 
+	 * doLayout :
+	 * 会通过外部调用的方式来执行此段代码；
+	 * 按设置的迭代次数迭代算法goAlgo()，会判断是否定义了迭代次数；
+	 * 如果有次数则直接简单的重复迭代，如果没有，则需要进行其他的设置；
+	 * @return void(Null)
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	@Override
 	public void doLayout() {
 		try {
@@ -207,7 +261,7 @@ public class FRForceLayout implements Layout {
 					System.out.println();*/
 					this.temperature=cool(this.temperature);
 				}
-			} else {
+			} else { //如果没有迭代参数，则会按一次迭代来执行
 				this.goAlgo();
 				int times = 1;
 				double force = Math.sqrt(this.resultantForceX
@@ -233,6 +287,13 @@ public class FRForceLayout implements Layout {
 
 	}
 
+	/** 
+	 * dist :
+	 * 私有方法，计算两个节点之间的欧式距离；
+	 * @return void(Null)
+	 * @author Mr.T
+	 * @Time 2017-03-24
+	 */
 	private double dist(Node node1, Node node2) {
 		double dist = Math.sqrt((node1.getNodeLayoutData().getOldX() - node2
 				.getNodeLayoutData().getOldX())
