@@ -25,7 +25,7 @@ public class testyyj {
 	static String getString(String str){
 		int num=str.lastIndexOf('\\');
 		int lastnum=str.indexOf('.');
-		String str1 = str.substring(num+1, lastnum);
+		String str1 = str.subs tring(num+1, lastnum);
 		return str1;
 	}
 	
