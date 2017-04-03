@@ -26,6 +26,7 @@ public class getAlreadyData extends HttpServlet {
 	 * The doGet method of the servlet. <br>
 	 *
 	 * 实例化testyyj对象，获取json数据
+	 * 获取左侧上部下拉框的选项值
 	 * 
 	 * @author Mr.T
 	 * @Time 2017-03-24

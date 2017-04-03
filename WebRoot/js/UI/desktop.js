@@ -293,14 +293,15 @@ Ext.onReady(function() {
                     afterLabelTextTpl: required,
                     xtype:'textfield',
                     name: 'name',
+                    value: 'example-1.0',
                     allowBlank: false
                 },{
                 	xtype: 'numberfield',
                 	 id:'number',
                      fieldLabel: '顶点数',
                      name: 'number',
-                     value: 1,
-                     minValue: 1,
+                     value: 2,
+                     minValue: 2,
                      allowNegative:false,
                      allowBlank: false
                 },{
@@ -317,8 +318,8 @@ Ext.onReady(function() {
                 	id:'random',
                     fieldLabel: '随机度',
                     name: 'random',
-                    value: 1,
-                    minValue: 1,
+                    value: 2,
+                    minValue: 2,
                     maxValue: 125,
                     allowBlank: false
                 }],
@@ -339,8 +340,9 @@ Ext.onReady(function() {
                         	    params: {avg:Ext.getCmp('avg').getValue(),filename:Ext.getCmp('filename').getValue(),number:Ext.getCmp('number').getValue(),random:Ext.getCmp('random').getValue()},
                         	    async: false,
                         	    success: function(response){
-                        	    	filename = Ext.getCmp('filename').getValue();
-                        	    	filenumber = Ext.getCmp("number").getValue();
+                        	    	filename = Ext.getCmp('filename').getValue();//更新filename文件名
+                        	    	filenumber = Ext.getCmp("number").getValue();//更新filenumber顶点数
+                        	    	//Ext.MessageBox.alert(filenumber);'数据生成成功'
                         	    	Ext.MessageBox.alert('ok!','数据生成成功');  
                         	    },
                         	    error:function(response){

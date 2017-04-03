@@ -22,7 +22,17 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * GraphData
+ * 此类的
+ * 写入到对应路径的文件内
+ * 
+ * @method hashMapToJson
+ * @method UndirectGraphTopK
+ * 
+ * @author Mr.T
+ * @Time 2017-4-3
+ */
 public class GraphData {
 
 //	public static void main(String[] args) {
@@ -77,23 +87,25 @@ public class GraphData {
 //
 //	}
 
-	public static String hashMapToJson(HashMap map) {
-		String string = "{data:[";
-		for (Iterator it = map.entrySet().iterator(); it.hasNext();) {
-			Entry e = (Entry) it.next();
-			string += "{name:'" + e.getKey() + "',";
-			string += "data:" + e.getValue() + "},";
-		}
-		string = string.substring(0, string.lastIndexOf(","));
-		string += "]}";
-		return string; 
-	}
-
-	public static void UndirectGraphTopK(String pathin,String realPath, String filename) {
+	
+	
+	
+   /**
+    * generateData
+    * 此方法会接收一个数组，其会在[服务器]项目根目录新建相应文件
+    * @param args[] 系统页面点提交时所填写的各项数据
+    * 
+    * @author Mr.T
+    * @Time 2017-4-3
+    */
+	public void UndirectGraphTopK(String pathin,String realPath, String filename) {
 		try {
 			//String filename = "C:/Users/Administrator/Desktop/undirectwuminxia.txt";
-			InputStreamReader isr = new InputStreamReader(new FileInputStream(
-					pathin), "utf-8");
+			InputStreamReader isr = new InputStreamReader(new FileInputStream(pathin), "utf-8");
+			//FileInputStream文件输入流，用来读取文件，前提是目标文件必须存在！
+			//FileOutputStream输出流，写入文件时可以创建文件
+			//以上二者均继承自Input/OutputStream
+			
 			BufferedReader br = new BufferedReader(isr);
 
 			List<String> keyList = new ArrayList<String>();
@@ -110,10 +122,11 @@ public class GraphData {
 			Comparator comparator = new ComparatorListSort();
 			Collections.sort(nodeCountList, comparator);
 			Iterator it3 = nodeCountList.iterator();
-
+			
 			FileOutputStream writerStream = new FileOutputStream(realPath+"\\dataTopK\\"+filename+".json");
-			BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(
-					writerStream, "UTF-8"));
+			//此处老是报路径错误，原因是项目中没有dataTopK这个
+			
+			BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(writerStream, "UTF-8"));
 			HashMap<String, Integer> hash = new HashMap<String, Integer>();
 			int counter = 0,number=0;
 			while (it3.hasNext()) {
@@ -134,11 +147,37 @@ public class GraphData {
 			br.close();
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("没有指定文件");
+			System.out.println(e+"没有指定文件");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
+	
+	   /**
+	    * hashMapToJson
+	    * 此方法会接收一个数组，其会在[服务器]项目根目录新建相应文件
+	    * 
+	    * @param map 系统页面点提交时所填写的各项数据
+	    * 
+	    * @author Mr.T
+	    * @Time 2017-4-3
+	    */
+		public static String hashMapToJson(HashMap map) {
+			String string = "{data:[";
+			for (Iterator it = map.entrySet().iterator(); it.hasNext();) {
+				Entry e = (Entry) it.next();
+				string += "{name:'" + e.getKey() + "',";
+				string += "data:" + e.getValue() + "},";
+			}
+			string = string.substring(0, string.lastIndexOf(","));
+			string += "]}";
+			return string; 
+		}
+		
+		
+		
+		
+		
 
 }
